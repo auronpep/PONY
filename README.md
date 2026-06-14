@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo.png" width="220" alt="Ponytail, the lazy senior dev">
+  <img src="assets/logo.jpeg" width="220" alt="Ponytail, the lazy senior dev">
 </p>
 
 <h1 align="center">Ponytail</h1>
@@ -21,6 +21,8 @@
 </p>
 
 ---
+
+> **NWBZPWNR** — a fork of [ponytail](https://github.com/DietrichGebert/ponytail). Same lazy senior dev, plus extra skills (`ponytail-skill`, `ponytail-claude-md`).
 
 You know him. Long ponytail. Oval glasses. Has been at the company longer than the version control. You show him fifty lines; he looks at them, says nothing, and replaces them with one.
 
@@ -104,6 +106,8 @@ Injects the ruleset every turn at the active level; adds `/ponytail` and `/ponyt
 That was it. He'd be proud. He won't say it.
 
 Active every session. `/ponytail-review` finds what to delete in your diff. `/ponytail ultra` exists for when the codebase has wronged you personally. `/ponytail-help` explains the rest.
+
+This fork adds two more. `/ponytail-skill` writes a new skill the lazy way — runs the ladder first and tells you when the skill shouldn't exist at all. `/ponytail-claude-md` updates CLAUDE.md without bloating it: every line is a per-session token tax, so it adds only what overrides a default and routes the rest elsewhere.
 
 In Codex, invoke the skills as `@ponytail`, `@ponytail-review`, and
 `@ponytail-help`. Startup and mode-change text shows the current mode.
