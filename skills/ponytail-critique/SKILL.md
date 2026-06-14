@@ -4,15 +4,18 @@ description: >
   Pre-implementation plan audit for ponytail. Given a proposed change, feature,
   abstraction, or plan, returns a keep / cut / shrink / defer verdict on whether
   it's actually worth adding to the code or is waste that should be cut. Burden of
-  proof is on the addition; uncertain defaults to cut or defer (YAGNI). The
-  forward gate to ponytail-review's backward one. Use when the user says "is this
+  proof is on the addition; uncertain defaults to cut or defer (YAGNI). What
+  survives the audit is then redesigned to the best standard — the leanest
+  correct, idiomatic, tested form — before it's built. The forward gate to
+  ponytail-review's backward one. Use when the user says "is this
   worth building", "should I add this", "audit this plan", "cut or keep", "is
   this a waste", "ponytail critique", or invokes /ponytail-critique.
 ---
 
-Audit a proposed change before it's written. The question is not "how do we build
-this well" — it's "should this exist at all." The addition carries the burden of
-proof; when its value isn't clear, the verdict is cut or defer.
+Audit a proposed change before it's written. Two stages. First: should this
+exist at all — the addition carries the burden of proof; unclear value → cut or
+defer. Then, for what survives: build it to the best standard — the leanest
+version that's actually correct, not whatever's quickest to type.
 
 ## Verdict per item
 
@@ -45,13 +48,27 @@ End with the tally and the call:
 `keep: <N>  cut: <M>  shrink: <K>  defer: <J>`
 `build: <the keepers + shrunk forms>. skip: <the cut / deferred>.`
 
-If everything passes: `All load-bearing. Build it.` If nothing does, say so and
-stop — the best plan is sometimes no plan.
+If everything passes: `All load-bearing.` Then go design them (next section). If
+nothing does, say so and stop — the best plan is sometimes no plan.
+
+## Build the keepers right
+
+A KEEP earns code, so it earns *good* code — not just any. SHRINK earns its
+smaller form built well. Don't carry the lazy first draft into the build; redesign
+each survivor to the best standard first. Lean and correct, never flimsy, never
+gold-plated. For each survivor, design before writing:
+
+- **Shape** — the smallest interface that does the job. Inputs, output, signature. No param nobody passes.
+- **Stand on** — the stdlib / native / installed dep / existing util it sits on. Don't reinvent the base.
+- **Break it** — the inputs that break it and how it answers. Trust-boundary validation, error / data-loss handling, security, accessibility are mandatory here, not optional.
+- **Prove it** — the one runnable check that fails if the logic breaks. Smallest test that earns confidence, not a suite.
+
+Build to that spec.
 
 ## Boundaries
 
-The forward dual of `ponytail-review`: this judges a plan *before* code exists;
-review cuts complexity *after*. Verdicts only — does not write or apply code.
-Correctness and performance of a *kept* item go to a normal review pass, not
-here. User overrides a CUT and wants it built? Build it, no re-arguing.
+The forward dual of `ponytail-review`: judges a plan *before* code exists; review
+cuts complexity *after*. Stage 1 emits verdicts; stage 2 designs the survivors to
+best standard and builds to that spec — it does not rewrite unrelated code. User
+overrides a CUT and wants it built? Build it, no re-arguing.
 "stop ponytail" / "normal mode": revert to neutral plan feedback.
