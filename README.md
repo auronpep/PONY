@@ -2,7 +2,7 @@
   <img src="assets/logo.jpeg" width="220" alt="Ponytail, the lazy senior dev">
 </p>
 
-<h1 align="center">Ponytail</h1>
+<h1 align="center">NWBZPWNR — a Ponytail fork</h1>
 
 <p align="center">
   <em>He says nothing. He writes one line. It works.</em>
