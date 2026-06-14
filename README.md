@@ -107,7 +107,7 @@ That was it. He'd be proud. He won't say it.
 
 Active every session. `/ponytail-review` finds what to delete in your diff. `/ponytail ultra` exists for when the codebase has wronged you personally. `/ponytail-help` explains the rest.
 
-This fork adds two more. `/ponytail-skill` writes a new skill the lazy way — runs the ladder first and tells you when the skill shouldn't exist at all. `/ponytail-claude-md` updates CLAUDE.md without bloating it: every line is a per-session token tax, so it adds only what overrides a default and routes the rest elsewhere.
+This fork adds three more. `/ponytail-skill` writes a new skill the lazy way — runs the ladder first and tells you when the skill shouldn't exist at all. `/ponytail-claude-md` updates CLAUDE.md without bloating it: every line is a per-session token tax, so it adds only what overrides a default and routes the rest elsewhere. `/ponytail-critique` audits a plan *before* you build it — keep / cut / shrink / defer verdicts on whether each piece is worth the code, the forward gate to `/ponytail-review`'s backward one.
 
 In Codex, invoke the skills as `@ponytail`, `@ponytail-review`, and
 `@ponytail-help`. Startup and mode-change text shows the current mode.
