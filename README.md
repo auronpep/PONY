@@ -109,6 +109,28 @@ Active every session. `/ponytail-review` finds what to delete in your diff. `/po
 
 This fork adds three more. `/ponytail-skill` writes a new skill the lazy way — runs the ladder first and tells you when the skill shouldn't exist at all. `/ponytail-claude-md` updates CLAUDE.md without bloating it: every line is a per-session token tax, so it adds only what overrides a default and routes the rest elsewhere. `/ponytail-critique` audits a plan *before* you build it — keep / cut / shrink / defer verdicts on whether each piece is worth the code, the forward gate to `/ponytail-review`'s backward one.
 
+### Context-engineering skills
+
+Context engineering is ponytail for tokens: context is a finite attention budget, not storage — load what earns its place, cut the rest. This fork ports the [agent-skills-for-context-engineering](https://github.com/muratcankoylan/agent-skills-for-context-engineering) collection (MIT) into the ponytail house style — single-file, terse, tables over prose, lazy-with-tokens framing, no scripts. Fifteen skills:
+
+| Skill | What |
+|---|---|
+| `/context-fundamentals` | Finite attention budget, U-shaped curve, position-aware placement — the conceptual anchor. |
+| `/context-optimization` | Token tactics: KV-cache → mask → compact → partition, at measured thresholds. |
+| `/context-compression` | Summarize long sessions by tokens-per-task; probe survival, not text overlap. |
+| `/context-degradation` | Five named failure modes (lost-in-middle, poisoning, distraction, confusion, clash) + detection. |
+| `/filesystem-context` | File-backed overflow: scratch pads, plans, sub-agent coordination, grep/glob over semantic search. |
+| `/memory-systems` | Cross-session memory; start filesystem, climb only on retrieval decay; invalidate, don't discard. |
+| `/tool-design` | Tool descriptions agents route on; consolidate to one purpose each; primitives over wrappers. |
+| `/multi-agent-patterns` | Topologies to partition context; the telephone-game cliff and the `forward_message` fix. |
+| `/evaluation` | Outcome-not-path rubrics, stratified test sets, deterministic gate before the judge. |
+| `/advanced-evaluation` | LLM-as-judge: position-swap protocol, bias taxonomy, calibration. |
+| `/harness-engineering` | Control surfaces: locked rubrics, append-only logs, novelty gates, rollback. |
+| `/hosted-agents` | Hosted-agent infra: warm pools, image registries, snapshots, keystroke pre-warm. |
+| `/project-development` | Task-model fit, manual-prototype-first, the acquire→render pipeline, cost estimation. |
+| `/latent-briefing` | KV-cache state sharing between agents (only when you control worker inference runtime). |
+| `/bdi-mental-states` | Formal belief/desire/intention ontology — RDF/SPARQL agent reasoning (niche). |
+
 In Codex, invoke the skills as `@ponytail`, `@ponytail-review`, and
 `@ponytail-help`. Startup and mode-change text shows the current mode.
 
