@@ -20,3 +20,18 @@ Completed 2026-06-17.
 - Local `origin` points only to `https://github.com/auronpep/PONY.git`.
 - Initial private push verified local `HEAD` matched private `origin/main` at `5bd406fcb89522839544acb31cc0d4f51b897f7a`.
 - Admin collaborator invitations are pending for `erewhonsgroup`, `VoteWood` (canonical casing for requested `votewood`), and `JWoodMedia`.
+
+# Ponytail Latest Merge
+
+## Plan
+
+- [x] Refresh `DietrichGebert/ponytail` `main` into a temporary ref without adding a remote.
+- [x] Identify the fork-only additions to preserve, especially the added skill and third workflow step.
+- [ ] Merge upstream bug/doc/Claude improvements into private `main`.
+- [ ] Resolve direct conflicts by keeping the requested fork additions plus upstream fixes.
+- [ ] Run the repo's smallest meaningful checks.
+- [ ] Verify private-only remote state, SHA parity, and no public upstream connection.
+
+## Review
+
+Pending.
