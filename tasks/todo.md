@@ -27,11 +27,18 @@ Completed 2026-06-17.
 
 - [x] Refresh `DietrichGebert/ponytail` `main` into a temporary ref without adding a remote.
 - [x] Identify the fork-only additions to preserve, especially the added skill and third workflow step.
-- [ ] Merge upstream bug/doc/Claude improvements into private `main`.
-- [ ] Resolve direct conflicts by keeping the requested fork additions plus upstream fixes.
-- [ ] Run the repo's smallest meaningful checks.
+- [x] Merge upstream bug/doc/Claude improvements into private `main`.
+- [x] Resolve direct conflicts by keeping the requested fork additions plus upstream fixes.
+- [x] Run the repo's smallest meaningful checks.
 - [ ] Verify private-only remote state, SHA parity, and no public upstream connection.
 
 ## Review
 
-Pending.
+Merged `DietrichGebert/ponytail` `main` at `45f7d2f83fb430a65fd512a98ad7b14d79e06636`.
+
+- Preserved fork-only skills: `ponytail-skill`, `ponytail-claude-md`, `ponytail-critique`, and the context-engineering skill pack.
+- Preserved the native-platform third ladder step in `AGENTS.md`, `skills/ponytail/SKILL.md`, and the README docs.
+- Brought in upstream bug/doc/platform additions including Claude/Codex hook hardening, Copilot CLI/plugin files, Gemini/Antigravity support, OpenClaw skills, correctness/behavior tests, updated examples, and benchmark fixes.
+- Resolved the only direct conflict in `README.md`.
+- Removed stale tracked artifacts `assets/logo.jpeg` and `skills/.DS_Store`; README now uses upstream `logo.png` plus `logo-dark.png`.
+- Verification passed: `npm test`, `node scripts/check-rule-copies.js`, and `git diff --cached --check`.
