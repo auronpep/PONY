@@ -30,7 +30,7 @@ Completed 2026-06-17.
 - [x] Merge upstream bug/doc/Claude improvements into private `main`.
 - [x] Resolve direct conflicts by keeping the requested fork additions plus upstream fixes.
 - [x] Run the repo's smallest meaningful checks.
-- [ ] Verify private-only remote state, SHA parity, and no public upstream connection.
+- [x] Verify private-only remote state, SHA parity, and no public upstream connection.
 
 ## Review
 
@@ -42,3 +42,5 @@ Merged `DietrichGebert/ponytail` `main` at `45f7d2f83fb430a65fd512a98ad7b14d79e0
 - Resolved the only direct conflict in `README.md`.
 - Removed stale tracked artifacts `assets/logo.jpeg` and `skills/.DS_Store`; README now uses upstream `logo.png` plus `logo-dark.png`.
 - Verification passed: `npm test`, `node scripts/check-rule-copies.js`, and `git diff --cached --check`.
+- Pushed to private `origin/main` and verified local/remote SHA parity at `8a15089925e5661150e9e292e461afc1c2d0c676` before this task-log closeout.
+- Deleted temporary `refs/tmp/ponytail-latest`; local git remotes still contain only private `origin`.
