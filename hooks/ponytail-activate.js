@@ -67,7 +67,7 @@ if (!isCodex && !isCopilot) try {
     output += "\n\n" +
       "STATUSLINE SETUP NEEDED: The ponytail plugin includes a statusline badge showing active mode " +
       "(e.g. [PONYTAIL], [PONYTAIL:ULTRA]). It is not configured yet. " +
-      "To enable, add this to ~/.claude/settings.json: " +
+      "To enable, add this to " + settingsPath + ": " +
       statusLineSnippet + " " +
       "Proactively offer to set this up for the user on first interaction.";
   }
