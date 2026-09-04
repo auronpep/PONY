@@ -18,7 +18,17 @@ function setMode(mode) {
 }
 
 function clearMode() {
-  try { fs.unlinkSync(statePath); } catch (e) {}
+  try {
+    fs.unlinkSync(statePath);
+  } catch (e) {
+    // Already gone is the normal case for a repeated "stop ponytail" — stay quiet.
+    // Anything else (EPERM, EBUSY) leaves a stale flag while the caller goes on to
+    // report PONYTAIL MODE OFF, so the badge keeps showing a mode that is no longer
+    // active with nothing to explain it.
+    if (e.code !== 'ENOENT') {
+      process.stderr.write('ponytail: could not remove mode flag at ' + statePath + ' (' + e.message + ')\n');
+    }
+  }
 }
 
 function writeHookOutput(event, mode, context = '') {
