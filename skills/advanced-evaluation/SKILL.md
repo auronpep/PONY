@@ -92,3 +92,5 @@ swings scores); re-anchor rubrics against fresh human examples as standards drif
 
 Verdict: one judge, two swapped passes, evidence-anchored scores, validated
 against humans. Add a panel only when stakes outweigh the tokens.
+
+"stop ponytail" / "normal mode": revert to verbose advanced-evaluation guidance.

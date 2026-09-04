@@ -91,3 +91,5 @@ today's scaffolding isn't tomorrow's cage.
 - `harness-engineering` — the autonomous control loop (locked metrics, run-for-days).
 - `context-optimization` — per-trajectory token tactics (masking, partitioning).
 - `evaluation` — the quality gates this skill requires you run.
+
+"stop ponytail" / "normal mode": revert to verbose project-development guidance.
