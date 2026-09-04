@@ -5,7 +5,7 @@ description: >
   Persistent semantic memory for agents across sessions: framework choice
   (Mem0, Zep/Graphiti, Letta, Cognee, LangMem), memory layers, retrieval
   strategy, temporal validity, consolidation, and benchmark selection (LoCoMo,
-  LongMemEval, DMR). Use when the user says "agent memory", "cross-session
+  DMR, HotPotQA). Use when the user says "agent memory", "cross-session
   memory", "knowledge graph memory", "vector store vs graph", "temporal memory",
   "which memory framework", "consolidate memory", or invokes /memory-systems.
   Routes scratchpads to filesystem-context, handoffs to context-compression,
