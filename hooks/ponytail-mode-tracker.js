@@ -28,7 +28,12 @@ process.stdin.on('end', () => {
         else if (arg === 'full') mode = 'full';
         else if (arg === 'ultra') mode = 'ultra';
         else if (arg === 'off') mode = 'off';
-        else mode = getDefaultMode();
+        // Bare `/ponytail` means "use the default" (commands/ponytail.toml). An
+        // argument we don't recognise — `status`, `default`, a typo — is not a
+        // level, so it must not switch modes. Falling through to getDefaultMode()
+        // here silently reset the session, e.g. `/ponytail status` while in ultra
+        // reported "MODE CHANGED — level: full" and dropped the user to full.
+        else if (!arg) mode = getDefaultMode();
       }
 
       if (mode && mode !== 'off') {
