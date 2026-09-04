@@ -87,7 +87,19 @@ function writeDefaultMode(mode) {
 
   const configPath = getConfigPath();
   fs.mkdirSync(path.dirname(configPath), { recursive: true });
-  fs.writeFileSync(configPath, JSON.stringify({ defaultMode: normalized }, null, 2), 'utf8');
+
+  // Merge, don't overwrite. This file belongs to the user: writing { defaultMode }
+  // wholesale silently deleted every other key in it.
+  let config = {};
+  try {
+    const parsed = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+    if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) config = parsed;
+  } catch (e) {
+    // Missing or unparseable — start fresh rather than dropping the write.
+  }
+
+  config.defaultMode = normalized;
+  fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf8');
   return normalized;
 }
 
