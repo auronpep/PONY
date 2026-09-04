@@ -1,10 +1,21 @@
 // Generate examples/*.md verbatim from a real benchmark run (output.json):
 // each file shows the same task answered with no skill vs with ponytail, same model.
 //   node benchmarks/generate-examples.mjs
-import { readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import loc from './loc.js';
 
-const j = JSON.parse(readFileSync(new URL('./output.json', import.meta.url), 'utf8'));
+// output.json is a promptfoo artifact and is gitignored (.gitignore: benchmarks/output*),
+// so it is never present in a fresh clone. Say how to produce it instead of throwing a
+// readFileSync stack at whoever runs the command in the header comment.
+const outputUrl = new URL('./output.json', import.meta.url);
+if (!existsSync(outputUrl)) {
+  console.error('benchmarks/output.json not found — it is a promptfoo artifact, not committed.');
+  console.error('Produce it first:');
+  console.error('  npx promptfoo@latest eval -c benchmarks/promptfooconfig.yaml -o benchmarks/output.json');
+  process.exit(1);
+}
+
+const j = JSON.parse(readFileSync(outputUrl, 'utf8'));
 const isHaiku = (id) => id.includes('haiku');
 
 const meta = [
