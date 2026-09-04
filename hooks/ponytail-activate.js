@@ -25,7 +25,10 @@ const mode = getDefaultMode();
 // "off" mode — skip activation entirely, don't write flag or emit rules
 if (mode === 'off') {
   clearMode();
-  writeHookOutput('SessionStart', 'off', isCodex ? '' : 'OK');
+  // Emit no context at all. SessionStart stdout is injected into the session, so a
+  // literal "OK" here became a stray context line on every session while ponytail
+  // was switched off. Codex still gets its PONYTAIL:OFF systemMessage.
+  writeHookOutput('SessionStart', 'off', '');
   process.exit(0);
 }
 
