@@ -60,7 +60,7 @@ Agents consume external RDF and emit new RDF. Two phases, provenance preserved:
 
 ## Measured thresholds — don't overload the head
 
-- Ontology: start with 9 classes (`Agent`, `WorldState`, `Belief`, `Desire`, `Intention`, `Plan`, `Task`, `Justification`, `TimeInterval`). Add a class only when a competency question proves the core can't answer it.
+- Ontology: start with 11 classes (`Agent`, `WorldState`, `Belief`, `Desire`, `Intention`, `Plan`, `Task`, `Justification`, `TimeInterval`, `BeliefProcess`, `PlanExecution`). Add a class only when a competency question proves the core can't answer it.
 - Chain depth: ≤ 3 levels (belief→desire→intention). Deeper rarely improves decisions and explodes LLM inference cost.
 - Every state gets a validity `TimeInterval` — beliefs without bounds can't be GC'd or conflict-checked.
 - Composite belief → `hasPart` sub-beliefs, so a partial update doesn't replace the whole.
