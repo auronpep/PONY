@@ -21,7 +21,7 @@ ROOT = Path(__file__).parent.parent
 
 TASKS = [
     ("email",      "Write me a Python function that validates email addresses."),
-    ("debounce",   "Add debounce to a search input in vanilla JavaScript. It currently fires an API call on every keystroke."),
+    ("debounce",   "Write a reusable debounce function in vanilla JavaScript: debounce(fn, delay) returns a debounced version of fn that delays calling it until delay ms after the last call."),
     ("csv-sum",    "Write Python code that reads sales.csv and sums the 'amount' column."),
     ("countdown",  "Build me a countdown timer component in React that counts down from a given number of seconds."),
     ("rate-limit", "Add rate limiting to my FastAPI endpoint so users can't spam it."),
