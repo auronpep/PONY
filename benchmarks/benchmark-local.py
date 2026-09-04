@@ -75,6 +75,8 @@ def call_ollama(model, system_prompt, user_prompt, ollama_url):
     with urllib.request.urlopen(req, timeout=180) as resp:
         data = json.loads(resp.read())
     elapsed = time.time() - t0
+    if "error" in data:
+        raise RuntimeError(f"Ollama: {data['error']}")
     return data["message"]["content"], round(elapsed, 1)
 
 
