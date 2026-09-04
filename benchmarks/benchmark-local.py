@@ -149,6 +149,11 @@ def main():
     parser.add_argument("--repeat",     type=int, default=1, help="Runs per cell; median reported (default: 1)")
     parser.add_argument("--ollama-url", default="http://localhost:11434", help="Ollama base URL")
     args = parser.parse_args()
+    # Below 1 there is nothing to take a median of: every cell stays empty and the
+    # median helper indexes an empty list. Reject it here rather than crash, and
+    # rather than print a table of zeros that looks like a measurement.
+    if args.repeat < 1:
+        parser.error("--repeat must be at least 1")
     run(args.model, args.repeat, args.ollama_url)
 
 
