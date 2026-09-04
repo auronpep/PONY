@@ -81,6 +81,10 @@ function getPonytailInstructions(mode) {
     return 'PONYTAIL MODE ACTIVE — level: ' + effectiveMode + '\n\n' +
       filterSkillBodyForMode(fs.readFileSync(SKILL_PATH, 'utf8'), effectiveMode);
   } catch (e) {
+    // The fallback is roughly half the ruleset, so degrading to it silently means every
+    // session quietly runs on a reduced rule set — with the badge still showing and no
+    // symptom to trace. stderr surfaces in hook debug output, never in the transcript.
+    process.stderr.write('ponytail: could not read ' + SKILL_PATH + ' (' + e.message + '); using the shorter fallback ruleset\n');
     return getFallbackInstructions(effectiveMode);
   }
 }
