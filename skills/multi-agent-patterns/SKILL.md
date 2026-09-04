@@ -47,7 +47,7 @@ Default to the leanest handoff; escalate only when shared state forces it:
 
 ## Token reality
 
-Multi-agent runs ~15x baseline (coordination + retries + consensus rounds). Budget 15x; less is a bonus. Token usage, tool calls, and model choice dominate performance variance — a better model often beats more agents. Always measure the multi-agent setup against a single-agent baseline; if it isn't faster or better after coordination cost, collapse back to one.
+Multi-agent runs ~15x a plain chat turn — about 4x a single agent, which is itself ~4x a turn (coordination + retries + consensus rounds). Budget 15x; less is a bonus. Token usage, tool calls, and model choice dominate performance variance — a better model often beats more agents. Always measure the multi-agent setup against a single-agent baseline; if it isn't faster or better after coordination cost, collapse back to one.
 
 ## Lazy is not negligent — never skip
 
