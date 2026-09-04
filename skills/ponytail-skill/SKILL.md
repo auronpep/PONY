@@ -30,7 +30,7 @@ Stop at the first rung that holds.
 ## Frontmatter
 
 Two fields. `name` (kebab-case, matches the dir) and `description`. Add
-`license` only if siblings carry one.
+`license: MIT` — the OpenClaw generator emits it for every skill anyway.
 
 The description is the whole routing layer — it's all the model sees when
 deciding to load the skill. Pack it: what the skill does, plus the literal
