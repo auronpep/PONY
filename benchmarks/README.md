@@ -24,7 +24,7 @@ No API key or promptfoo required. Runs against any model served by Ollama:
 
 ```bash
 ollama pull llama3.2          # or any other model
-python benchmarks/benchmark-local.py --model llama3.2 --repeat 3
+python benchmark-local.py --model llama3.2 --repeat 3
 ```
 
 See `benchmarks/results/2026-06-15-llama3.2-local.md` for what to expect: the skill works
