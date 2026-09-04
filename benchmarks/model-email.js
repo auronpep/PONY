@@ -8,7 +8,7 @@ const MODELS = (process.env.ME_MODELS || 'gpt-4.1-mini,gpt-5.4-mini').split(',')
 
 const kv = Object.fromEntries(fs.readFileSync(path.join(__dirname, '..', '.env'), 'utf8')
   .split(/\r?\n/).filter(l => l.includes('=') && !l.trim().startsWith('#'))
-  .map(l => { const i = l.indexOf('='); return [l.slice(0, i).trim(), l.slice(i + 1).trim()]; }));
+  .map(l => { const i = l.indexOf('='); return [l.slice(0, i).trim(), l.slice(i + 1).trim().replace(/^['"]|['"]$/g, '')]; }));
 const KEY = kv.OPENAI_API_KEY;
 
 async function call(model, system, user) {

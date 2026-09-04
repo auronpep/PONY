@@ -15,7 +15,7 @@ let kv = {};
 try {
   kv = Object.fromEntries(fs.readFileSync(path.join(ROOT, '.env'), 'utf8')
     .split(/\r?\n/).filter(l => l.includes('=') && !l.trim().startsWith('#'))
-    .map(l => { const i = l.indexOf('='); return [l.slice(0, i).trim(), l.slice(i + 1).trim()]; }));
+    .map(l => { const i = l.indexOf('='); return [l.slice(0, i).trim(), l.slice(i + 1).trim().replace(/^['"]|['"]$/g, '')]; }));
 } catch (_) { /* no .env — fine for --selftest */ }
 const KEY = process.env.OPENAI_API_KEY || kv.OPENAI_API_KEY;
 const SKILL = fs.readFileSync(path.join(ROOT, 'skills', 'ponytail', 'SKILL.md'), 'utf8');
