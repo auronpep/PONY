@@ -20,6 +20,23 @@ test('pi registers at least the base command', () => {
   assert.ok(commands.includes('ponytail'), 'expected pi to register a ponytail command');
 });
 
+// The two tests below iterate `commands`, so anything the regex fails to scrape is
+// simply not checked. A refactor to a loop or a template literal would shrink the
+// list and let those tests pass over whatever survived. Pin the scrape against the
+// command files so a partial scrape is a failure rather than reduced coverage.
+test('the pi command scrape matches commands/*.toml', () => {
+  const onDisk = fs.readdirSync(path.join(root, 'commands'))
+    .filter((f) => f.endsWith('.toml'))
+    .map((f) => f.slice(0, -'.toml'.length))
+    .sort();
+
+  assert.deepEqual(
+    [...commands].sort(),
+    onDisk,
+    'pi registrations and commands/*.toml disagree — either the regex scrape broke, or a command ships on only one side',
+  );
+});
+
 test('every registered command ships a Claude commands/*.toml', () => {
   for (const name of commands) {
     assert.ok(
