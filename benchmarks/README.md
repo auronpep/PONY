@@ -74,7 +74,7 @@ Versus baseline, ponytail writes **80-94% less code**, costs **42-75% less**, an
 
 ### Prerequisites
 
-Running the benchmark requires **Python 3**, **pandas**, and **Node.js** (18+).
+Running the benchmark requires **Python 3**, **pandas**, and **Node.js ≥ 22.22.0**.
 
 ## Notes
 
