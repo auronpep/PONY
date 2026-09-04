@@ -79,6 +79,32 @@ for (const phrase of INVARIANTS) {
   }
 }
 
+// hooks/ponytail-instructions.js carries a third copy of the rules: the fallback
+// ruleset shipped whenever skills/ponytail/SKILL.md can't be read. Nothing validated
+// it, so the safety carve-outs could be reworded out of the degraded path silently —
+// the one path where a user is least likely to notice. Pin the carve-outs and the
+// one-check rule there too.
+//
+// Deliberately a subset, not INVARIANTS: the fallback is a condensed ruleset and does
+// not currently carry 'naive heuristic' or 'flimsier algorithm'. Asserting those here
+// would fail today; whether to add them to the fallback text is a separate call.
+const FALLBACK_INVARIANTS = [
+  'input validation at trust boundaries',
+  'prevents data loss',
+  'security measures',
+  'accessibility',
+  'ONE runnable check',
+  'Lazy code without its check is unfinished',
+];
+
+const fallback = read('hooks/ponytail-instructions.js');
+for (const phrase of FALLBACK_INVARIANTS) {
+  if (!fallback.includes(phrase)) {
+    console.error(`hooks/ponytail-instructions.js (fallback ruleset) is missing safety invariant: "${phrase}"`);
+    failed = true;
+  }
+}
+
 if (failed) {
   console.error('Update the copied rule text, AGENTS.md, or SKILL.md so the shared rules match.');
   process.exit(1);
