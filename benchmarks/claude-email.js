@@ -6,10 +6,15 @@ const email = TASKS.find(t => t.name === 'email');
 const N = Number(process.env.CE_N) || 40;
 const MODELS = (process.env.CE_MODELS || 'claude-haiku-4-5-20251001,claude-sonnet-4-6,claude-opus-4-8').split(',');
 
-const kv = Object.fromEntries(fs.readFileSync(path.join(__dirname, '..', '.env'), 'utf8')
+// Key acquisition matches robustness-audit.js: the environment wins, .env is a
+// fallback, and a missing .env is not fatal (CI and shell-export runs have no file).
+let kv = {};
+try {
+kv = Object.fromEntries(fs.readFileSync(path.join(__dirname, '..', '.env'), 'utf8')
   .split(/\r?\n/).filter(l => l.includes('=') && !l.trim().startsWith('#'))
-  .map(l => { const i = l.indexOf('='); return [l.slice(0, i).trim(), l.slice(i + 1).trim().replace(/^['"]|['"]$/g, '')]; }));
-const KEY = kv.ANTHROPIC_API_KEY;
+  .map(l => { const i = l.indexOf('='); return [l.slice(0, i).trim(), l.slice(i + 1).trim()]; }));
+} catch (_) { /* no .env — fall back to the environment */ }
+const KEY = process.env.ANTHROPIC_API_KEY || kv.ANTHROPIC_API_KEY;
 
 async function call(model, system, user) {
   const body = { model, max_tokens: 1024, messages: [{ role: 'user', content: user }] };
