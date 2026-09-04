@@ -71,8 +71,8 @@ benchmark every extra agent against the single-agent baseline.
 
 Eval is not a launch gate — quality drifts as models, tools, and usage change.
 Run on every significant change against a stored baseline; block regressions.
-Sample production continuously; alert at `<0.85` pass (warning), `<0.70`
-(critical).
+Sample production continuously; alert at `<0.85` pass-rate (warning), `<0.70`
+pass-rate (critical) — the share of sampled runs that pass, not the weighted score.
 
 ## Lazy is not negligent
 
