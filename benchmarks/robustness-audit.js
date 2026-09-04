@@ -144,11 +144,22 @@ print('PASS')`;
 async function call(system, user) {
   const body = { model: MODEL, max_completion_tokens: 4096,
     messages: system ? [{ role: 'system', content: system }, { role: 'user', content: user }] : [{ role: 'user', content: user }] };
-  const r = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST', headers: { Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-  if (!r.ok) return { err: r.status };
-  const j = await r.json();
-  return { text: j.choices?.[0]?.message?.content || '' };
+  // A rejected fetch here used to escape call(), then the run loop, then the async
+  // IIFE — an unhandled rejection that killed the process and discarded every result
+  // already collected. A full run is 640 sequential requests, so a single DNS hiccup
+  // or ECONNRESET near the end threw away the whole audit. Transport failures are
+  // counted like any other error instead.
+  try {
+    const r = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST', headers: { Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    if (!r.ok) return { err: r.status };
+    const j = await r.json();
+    return { text: j.choices?.[0]?.message?.content || '' };
+  } catch (e) {
+    // Node errors carry a string `code` (ENOTFOUND); an AbortSignal timeout raises a
+    // DOMException whose `code` is the number 23, so prefer `name` in that case.
+    return { err: typeof e.code === 'string' ? e.code : (e.name || 'fetch failed') };
+  }
 }
 
 module.exports = { checkPy, pyBlock, call, TASKS, SKILL };
