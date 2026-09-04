@@ -36,6 +36,6 @@ for (const name of NAMES) {
 
   test(`${name}: description is one line under 160 chars`, () => {
     const d = DESCRIPTIONS[name];
-    assert.ok(d.length <= 160 && !d.includes('\n'), 'description too long or multiline');
+    assert.ok(d.length < 160 && !d.includes('\n'), 'description too long or multiline');
   });
 }
