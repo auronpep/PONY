@@ -57,7 +57,12 @@ export default async ({ client } = {}) => {
     'command.execute.before': async (input) => {
       if (!input || input.command !== 'ponytail') return;
       // `off` is persisted like any mode; the transform reads it and stays silent.
-      const mode = normalizePersistedMode((input.arguments || '').trim()) || getDefaultMode();
+      const arg = (input.arguments || '').trim();
+      // Bare `/ponytail` means "use the default". An argument that isn't a level —
+      // `status`, `default`, a typo — is not a mode switch, so it must not write the
+      // flag: falling through to getDefaultMode() here silently reset the session.
+      const mode = arg ? normalizePersistedMode(arg) : getDefaultMode();
+      if (!mode) return;
       writeMode(mode);
       log('info', 'ponytail ' + mode);
     },
