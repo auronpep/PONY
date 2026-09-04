@@ -81,7 +81,7 @@ export default function ponytailExtension(pi) {
   };
 
   pi.registerCommand("ponytail", {
-    description: "Set or report Ponytail mode",
+    description: "Switch ponytail intensity level (lite/full/ultra/off), or report it",
     handler: async (args, ctx) => {
       const parsed = parsePonytailCommand(args, configuredDefaultMode);
 
@@ -122,23 +122,23 @@ export default function ponytailExtension(pi) {
   });
 
   pi.registerCommand("ponytail-review", {
-    description: "Run /skill:ponytail-review",
-    handler: (args, ctx) => sendAlias("/skill:ponytail-review", args, ctx),
+    description: "Review changes for over-engineering, what can be deleted",
+    handler: (_args, ctx) => sendAlias("/skill:ponytail-review", "", ctx),
   });
 
   pi.registerCommand("ponytail-audit", {
-    description: "Run /skill:ponytail-audit",
-    handler: (args, ctx) => sendAlias("/skill:ponytail-audit", args, ctx),
+    description: "Audit the whole repo for over-engineering, what can be deleted",
+    handler: (_args, ctx) => sendAlias("/skill:ponytail-audit", "", ctx),
   });
 
   pi.registerCommand("ponytail-debt", {
-    description: "Run /skill:ponytail-debt",
-    handler: (args, ctx) => sendAlias("/skill:ponytail-debt", args, ctx),
+    description: "Harvest ponytail: comments into a tracked debt ledger",
+    handler: (_args, ctx) => sendAlias("/skill:ponytail-debt", "", ctx),
   });
 
   pi.registerCommand("ponytail-help", {
-    description: "Run /skill:ponytail-help",
-    handler: (args, ctx) => sendAlias("/skill:ponytail-help", args, ctx),
+    description: "Quick reference for ponytail levels, skills, and commands",
+    handler: (_args, ctx) => sendAlias("/skill:ponytail-help", "", ctx),
   });
 
   pi.on("input", async (event) => {
