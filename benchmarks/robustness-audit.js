@@ -18,7 +18,22 @@ try {
     .map(l => { const i = l.indexOf('='); return [l.slice(0, i).trim(), l.slice(i + 1).trim()]; }));
 } catch (_) { /* no .env — fine for --selftest */ }
 const KEY = process.env.OPENAI_API_KEY || kv.OPENAI_API_KEY;
-const SKILL = fs.readFileSync(path.join(ROOT, 'skills', 'ponytail', 'SKILL.md'), 'utf8');
+// Read lazily. At module scope this crashed on require() with a raw fs stack — and
+// took --selftest down with it, even though the self-test needs no skill file and is
+// documented as the mode that works without API spend or setup.
+let _skill = null;
+function skill() {
+  if (_skill === null) {
+    const p = path.join(ROOT, 'skills', 'ponytail', 'SKILL.md');
+    try {
+      _skill = fs.readFileSync(p, 'utf8');
+    } catch (e) {
+      console.error('cannot read ' + p + ' (' + e.message + ')');
+      process.exit(1);
+    }
+  }
+  return _skill;
+}
 
 // task = { name, prompt, names, arity, cases: [[argsArray, expected], ...], good, bad }
 const TASKS = [
@@ -151,7 +166,7 @@ async function call(system, user) {
   return { text: j.choices?.[0]?.message?.content || '' };
 }
 
-module.exports = { checkPy, pyBlock, call, TASKS, SKILL };
+module.exports = { checkPy, pyBlock, call, TASKS, skill };
 if (require.main !== module) return;
 
 if (process.argv.includes('--selftest')) {
@@ -167,7 +182,7 @@ if (process.argv.includes('--selftest')) {
 }
 
 (async () => {
-  const arms = { baseline: null, ponytail: SKILL };
+  const arms = { baseline: null, ponytail: skill() };
   const grid = {};
   for (const t of TASKS) {
     grid[t.name] = {};
