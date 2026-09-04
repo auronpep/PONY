@@ -33,12 +33,12 @@ and breaks type-filtered queries.
 ## Cognitive chain — the one standout pattern
 
 Wire the triad with bidirectional pairs so the graph reads both directions:
-`Belief —motivates→ Desire —fulfilledBy→ Intention —specifies→ Plan —hasComponent→ Task —precedes→ Task`
+`Belief —motivates→ Desire —isFulfilledBy→ Intention —specifies→ Plan —hasComponent→ Task —precedes→ Task`
 
 Forward = "what should the agent do?" Backward = "why did it act?" The backward
 trace is the whole point: explainable agency for free. Properties:
 `motivates`/`isMotivatedBy`, `fulfils`/`isFulfilledBy`, `isSupportedBy` (intention←belief),
-`specifies` (intention→plan), `addresses` (plan→goal), `precedes` (task order),
+`specifies` (intention→plan), `addresses` (plan→`Desire`), `precedes` (task order),
 `isJustifiedBy` (any state→`Justification`), `refersTo` (belief→worldstate).
 
 ## T2B2T — the bidirectional pipeline
