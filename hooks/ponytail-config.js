@@ -55,18 +55,22 @@ function getClaudeDir() {
   return process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude');
 }
 
+// A session default must be a rung on the ladder. `review` is a one-shot command
+// mode (INDEPENDENT_MODES in ponytail-instructions.js), so persisting it as the
+// default replaces the whole ruleset with a one-line skill pointer on every
+// session start. Validate defaults against RUNTIME_MODES, not VALID_MODES.
 function getDefaultMode() {
   // 1. Environment variable (highest priority)
   const envMode = process.env.PONYTAIL_DEFAULT_MODE;
-  if (envMode && VALID_MODES.includes(envMode.toLowerCase())) {
-    return envMode.toLowerCase();
+  if (envMode && RUNTIME_MODES.includes(envMode.trim().toLowerCase())) {
+    return envMode.trim().toLowerCase();
   }
 
   // 2. Config file
   try {
     const configPath = getConfigPath();
     const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-    if (config.defaultMode && VALID_MODES.includes(config.defaultMode.toLowerCase())) {
+    if (config.defaultMode && RUNTIME_MODES.includes(config.defaultMode.toLowerCase())) {
       return config.defaultMode.toLowerCase();
     }
   } catch (e) {
