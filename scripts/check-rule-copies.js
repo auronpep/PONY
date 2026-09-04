@@ -49,7 +49,12 @@ const INVARIANTS = [
   // full "error handling that prevents data loss" wraps a line in SKILL.md).
   'input validation at trust boundaries',
   'prevents data loss',
-  'security',
+  // Anchored to its slot in the carve-out list. A bare 'security' also matched
+  // "a money/security path" further down SKILL.md, so deleting the security
+  // carve-out passed this check. 'accessibility' appears only in the carve-out,
+  // so it stays as-is. Both files phrase the item differently ("security
+  // measures" vs "security"), and this prefix is the longest common substring.
+  'data loss, security',
   'accessibility',
   'Lazy code without its check is unfinished', // one-check promoted to headline
 ];
