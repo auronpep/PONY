@@ -10,7 +10,12 @@ const root = path.join(__dirname, '..');
 
 function run(script, env, input = '') {
   return spawnSync(process.execPath, [path.join(root, 'hooks', script)], {
-    env: { ...process.env, ...env },
+    // Neutralise the adapter-selecting vars before the caller's env is applied.
+    // Otherwise running this suite from inside a Codex or Copilot session leaks
+    // PLUGIN_DATA / COPILOT_PLUGIN_DATA into every child, flipping the hooks into
+    // that adapter and breaking the Claude-path assertions. Caller-supplied values
+    // still win, so the Codex and Copilot cases below set them as usual.
+    env: { ...process.env, PLUGIN_DATA: '', COPILOT_PLUGIN_DATA: '', ...env },
     input,
     encoding: 'utf8',
   });
@@ -69,7 +74,6 @@ const claudeEnv = {
   USERPROFILE: home,
   PONYTAIL_DEFAULT_MODE: 'full',
 };
-delete claudeEnv.PLUGIN_DATA;
 
 result = run('ponytail-activate.js', claudeEnv);
 assert.equal(result.status, 0, result.stderr);
