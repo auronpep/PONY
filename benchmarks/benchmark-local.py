@@ -39,7 +39,7 @@ def load_arms():
 def count_loc(text):
     """Non-blank, non-comment lines of code: fenced blocks, or the whole
     response when the model emitted bare code with no fence."""
-    blocks = re.findall(r"```[a-zA-Z0-9_+\-]*\n([\s\S]*?)```", text)
+    blocks = re.findall(r"```[a-zA-Z0-9_+\-]*\r?\n([\s\S]*?)```", text)
     lines = ("\n".join(blocks) if blocks else text).splitlines()
     return sum(
         1 for l in lines
