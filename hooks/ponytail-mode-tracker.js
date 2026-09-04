@@ -32,7 +32,15 @@ process.stdin.on('end', () => {
       }
 
       if (mode && mode !== 'off') {
-        setMode(mode);
+        // The flag is best-effort (it only drives the statusline badge), same as in
+        // ponytail-activate.js. Unguarded, a write failure threw into the outer catch
+        // and suppressed the mode-change message too — so the switch that DID take
+        // effect looked like it was ignored.
+        try {
+          setMode(mode);
+        } catch (e) {
+          process.stderr.write('ponytail: could not write mode flag (' + e.message + ')\n');
+        }
         writeHookOutput(
           'UserPromptSubmit',
           mode,
