@@ -84,6 +84,22 @@ The Claude Code and Codex plugins run two tiny Node.js lifecycle hooks, so `node
 /plugin install ponytail@ponytail
 ```
 
+#### Statusline badge (optional, Claude Code)
+
+Shows the active level in your status line — `[PONYTAIL]` at `full`, `[PONYTAIL:ULTRA]`
+otherwise, and nothing when ponytail is off. Add to `settings.json` (the plugin detects when
+this is missing and offers to fill in the absolute path for you):
+
+```json
+{ "statusLine": { "type": "command", "command": "bash \"<plugin>/hooks/ponytail-statusline.sh\"" } }
+```
+
+On Windows, point it at the PowerShell script instead:
+`powershell -ExecutionPolicy Bypass -File "<plugin>\hooks\ponytail-statusline.ps1"`.
+
+Both scripts read the mode flag from `CLAUDE_CONFIG_DIR` (falling back to `~/.claude`) and
+exit quietly when there's nothing to show.
+
 ### Codex
 
 ```bash
