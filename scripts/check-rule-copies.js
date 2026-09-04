@@ -27,6 +27,15 @@ const copies = [
 let failed = false;
 
 for (const [relPath, normalize] of copies) {
+  // A deleted copy is a drift too, and the most likely one. Report it like any
+  // other finding and keep checking the rest — an unguarded read threw a raw
+  // ENOENT stack here and skipped every copy after it.
+  if (!fs.existsSync(path.join(root, relPath))) {
+    console.error(`${relPath} is missing`);
+    failed = true;
+    continue;
+  }
+
   const actual = normalize(read(relPath));
   if (actual !== canonical) {
     console.error(`${relPath} drifted from AGENTS.md`);
