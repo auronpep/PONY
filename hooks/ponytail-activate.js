@@ -1,8 +1,10 @@
 #!/usr/bin/env node
-// ponytail — Claude Code SessionStart activation hook
+// ponytail — SessionStart activation hook (Claude Code, Codex, Copilot CLI)
 //
 // Runs on every session start:
-//   1. Writes flag file at ~/.claude/.ponytail-active (statusline reads this)
+//   1. Writes the .ponytail-active flag to the host's state dir (statusline reads
+//      this) — see ponytail-runtime.js: CLAUDE_CONFIG_DIR or ~/.claude for Claude
+//      Code, PLUGIN_DATA for Codex, COPILOT_PLUGIN_DATA for Copilot CLI
 //   2. Emits ponytail ruleset as hidden SessionStart context
 //   3. Detects missing statusline config and emits setup nudge
 
