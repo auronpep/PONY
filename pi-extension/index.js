@@ -133,7 +133,8 @@ export default function ponytailExtension(pi) {
     if (event?.source === "extension") return;
 
     const text = String(event?.text || "");
-    if (currentMode !== "off" && /\b(stop ponytail|normal mode)\b/i.test(text)) {
+    // Anchored: an unanchored match switched ponytail off on any passing mention.
+    if (currentMode !== "off" && /(^|\s)(stop ponytail|normal mode)\s*[.!]?$/i.test(text.trim())) {
       setMode("off");
     }
   });
