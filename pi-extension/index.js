@@ -147,6 +147,9 @@ export default function ponytailExtension(pi) {
 
   pi.on("before_agent_start", async (event) => {
     if (!currentMode || currentMode === "off") return;
-    return { systemPrompt: `${event.systemPrompt}\n\n${getPonytailInstructions(currentMode)}` };
+    // Template-interpolating an absent systemPrompt injected the literal text
+    // "undefined" as the first line of the model's system prompt.
+    const base = event?.systemPrompt ? `${event.systemPrompt}\n\n` : "";
+    return { systemPrompt: `${base}${getPonytailInstructions(currentMode)}` };
   });
 }
