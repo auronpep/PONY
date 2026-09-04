@@ -99,6 +99,45 @@ assert.equal(
   'flag must not land in ~/.claude when CLAUDE_CONFIG_DIR is set',
 );
 
+// PONYTAIL_DEFAULT_MODE=off: the activation hook must clear the flag and inject no
+// ruleset. Nothing covered this path, so the two things that define "off" — no flag,
+// no rules — were both unasserted.
+const offHome = path.join(temp, 'home-off');
+const offConfigDir = path.join(temp, 'off-config');
+fs.mkdirSync(offHome, { recursive: true });
+result = run('ponytail-activate.js', {
+  HOME: offHome,
+  USERPROFILE: offHome,
+  CLAUDE_CONFIG_DIR: offConfigDir,
+  PONYTAIL_DEFAULT_MODE: 'off',
+});
+assert.equal(result.status, 0, result.stderr);
+assert.equal(
+  fs.existsSync(path.join(offConfigDir, '.ponytail-active')),
+  false,
+  'off mode must not leave a mode flag behind',
+);
+assert.ok(
+  !/PONYTAIL MODE ACTIVE/.test(result.stdout),
+  'off mode must not inject the ruleset',
+);
+
+// Codex still gets its status line so the host can show the mode.
+const offPluginData = path.join(temp, 'off-plugin-data');
+result = run('ponytail-activate.js', {
+  HOME: offHome,
+  USERPROFILE: offHome,
+  PLUGIN_DATA: offPluginData,
+  PONYTAIL_DEFAULT_MODE: 'off',
+});
+assert.equal(result.status, 0, result.stderr);
+assert.equal(JSON.parse(result.stdout).systemMessage, 'PONYTAIL:OFF');
+assert.equal(
+  fs.existsSync(path.join(offPluginData, '.ponytail-active')),
+  false,
+  'off mode must not leave a mode flag behind under Codex either',
+);
+
 const copilotData = path.join(temp, 'copilot-data');
 const codexData = path.join(temp, 'codex-data-shadow');
 result = run('ponytail-activate.js', {
