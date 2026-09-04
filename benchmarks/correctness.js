@@ -186,20 +186,22 @@ setTimeout(() => {
 import sys, os
 os.chdir(r"${path.dirname(csvPath)}")
 
-# Capture print output
+# Capture print output. Hold the buffer in its own name: the except path used to
+# restore sys.stdout before reading it, so getvalue() hit the real stdout.
 import io
 _stdout = sys.stdout
-sys.stdout = io.StringIO()
+_capture = io.StringIO()
+sys.stdout = _capture
 
 try:
 ${patched.split('\n').map((l) => '    ' + l).join('\n')}
 except Exception as e:
-    sys.stdout = _stdout
     # If it needs sales.csv in cwd, write it there and retry
     pass
+finally:
+    sys.stdout = _stdout
 
-output = sys.stdout.getvalue()
-sys.stdout = _stdout
+output = _capture.getvalue()
 
 # Check output contains the number 351 (100.5 + 200.0 + 50.5)
 # Match as a standalone number (not as substring of e.g. 13510)
