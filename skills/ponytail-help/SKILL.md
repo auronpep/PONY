@@ -27,11 +27,13 @@ Level sticks until changed or session end.
 |-------|---------|--------------|
 | **ponytail** | `/ponytail` | Lazy mode itself. Simplest solution that works. |
 | **ponytail-review** | `/ponytail-review` | Over-engineering review: `L42: yagni: factory, one product. Inline.` |
+| **ponytail-audit** | `/ponytail-audit` | Audit the whole repo for over-engineering, what can be deleted. |
+| **ponytail-debt** | `/ponytail-debt` | Harvest `ponytail:` comments into a tracked debt ledger. |
 | **ponytail-help** | `/ponytail-help` | This card. |
 
-Codex uses `@ponytail`, `@ponytail-review`, and `@ponytail-help`; Claude Code
-and OpenCode use the slash-command forms above (OpenCode ships `/ponytail` and
-`/ponytail-review`).
+Codex uses the `@` forms (`@ponytail`, `@ponytail-review`, `@ponytail-audit`,
+`@ponytail-debt`, `@ponytail-help`); Claude Code and OpenCode use the
+slash-command forms above. All five ship on each.
 
 ## Deactivate
 
