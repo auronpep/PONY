@@ -22,7 +22,7 @@ both ends or you're guessing.
 |---|------|------|------|
 | 1 | **KV-cache ordering** | a stable prefix exists | none — pure win |
 | 2 | **Observation masking** | tool outputs >50% of context | low (retrievable) |
-| 3 | **Compaction** | utilization >70%, masking done | lossy |
+| 3 | **Compaction** | utilization >80%, masking done | lossy |
 | 4 | **Partitioning** | est. context >60% of window | coordination tax |
 
 Mask *before* compaction. Partition before the window is on fire. Triggers:
