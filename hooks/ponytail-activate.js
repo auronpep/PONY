@@ -13,6 +13,7 @@ const { getPonytailInstructions } = require('./ponytail-instructions');
 const {
   clearMode,
   isCodex,
+  isCopilot,
   setMode,
   writeHookOutput,
 } = require('./ponytail-runtime');
@@ -40,7 +41,9 @@ try {
 let output = getPonytailInstructions(mode);
 
 // 3. Detect missing statusline config — nudge Claude to help set it up
-if (!isCodex) try {
+// The nudge is Claude Code-specific: it edits ~/.claude/settings.json. Codex and
+// Copilot have no such statusline, so neither should be told to configure one.
+if (!isCodex && !isCopilot) try {
   let hasStatusline = false;
   if (fs.existsSync(settingsPath)) {
     const settings = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
