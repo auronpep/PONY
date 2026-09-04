@@ -166,6 +166,16 @@ if (process.argv.includes('--selftest')) {
   process.exit(bad ? 1 : 0);
 }
 
+// Without this the run still "succeeds": `Bearer undefined` 401s on all 640 calls,
+// `err` absorbs every one of them, and the table prints 0/0 for every cell as though
+// it were a measurement. Check before spending the first request. (--selftest needs
+// no key and has already exited above.)
+if (!KEY) {
+  console.error('OPENAI_API_KEY missing — set it in the environment or in ' + path.join(ROOT, '.env') + '.');
+  console.error('No key is needed for `node robustness-audit.js --selftest`.');
+  process.exit(1);
+}
+
 (async () => {
   const arms = { baseline: null, ponytail: SKILL };
   const grid = {};
