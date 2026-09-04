@@ -136,8 +136,15 @@ for args, expected in cases:
 print('PASS')`;
   const f = path.join(os.tmpdir(), `audit-${process.pid}-${Math.random().toString(36).slice(2)}.py`);
   fs.writeFileSync(f, harness);
-  try { execSync(`python3 "${f}"`, { timeout: 10000, encoding: 'utf8', stdio: 'pipe' }); return true; }
-  catch (e) { return false; }
+  try { execSync(`python3 "${f}"`, { timeout: 10000, encoding: 'utf8', stdio: 'pipe' }); checkPy.why = ''; return true; }
+  catch (e) {
+    // The harness already prints why it failed (NOFN / EXC / MISMATCH) and that output
+    // was discarded, so a broken --selftest instrument reported good=false with no way
+    // to distinguish a wrong reference from a missing python3. Stash the first line for
+    // the caller; --selftest prints it only when the outcome was unexpected.
+    checkPy.why = ((e.stdout || '').trim() || e.message).split('\n')[0];
+    return false;
+  }
   finally { try { fs.unlinkSync(f); } catch (_) {} }
 }
 
@@ -168,9 +175,14 @@ if (require.main !== module) return;
 if (process.argv.includes('--selftest')) {
   let ok = 0, bad = 0;
   for (const t of TASKS) {
-    const g = checkPy(t.good, t), b = checkPy(t.bad, t);
+    const g = checkPy(t.good, t); const gWhy = checkPy.why;
+    const b = checkPy(t.bad, t); const bWhy = checkPy.why;
     const pass = g === true && b === false;
     console.log(`${pass ? 'ok ' : 'XX '} ${t.name.padEnd(16)} good=${g} bad=${b}`);
+    // Only on an unexpected outcome: a `bad` reference failing is the point, so
+    // explaining every one of those would bury the real breakage in noise.
+    if (!g) console.log(`      good reference rejected: ${gWhy}`);
+    if (b) console.log('      bad reference was accepted — the check does not catch this error');
     pass ? ok++ : bad++;
   }
   console.log(`\nself-test: ${ok}/${TASKS.length} instruments valid${bad ? ` — ${bad} BROKEN` : ''}`);
