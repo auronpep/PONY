@@ -111,22 +111,22 @@ export default function ponytailExtension(pi) {
 
   pi.registerCommand("ponytail-review", {
     description: "Run /skill:ponytail-review",
-    handler: (_args, ctx) => sendAlias("/skill:ponytail-review", "", ctx),
+    handler: (args, ctx) => sendAlias("/skill:ponytail-review", args, ctx),
   });
 
   pi.registerCommand("ponytail-audit", {
     description: "Run /skill:ponytail-audit",
-    handler: (_args, ctx) => sendAlias("/skill:ponytail-audit", "", ctx),
+    handler: (args, ctx) => sendAlias("/skill:ponytail-audit", args, ctx),
   });
 
   pi.registerCommand("ponytail-debt", {
     description: "Run /skill:ponytail-debt",
-    handler: (_args, ctx) => sendAlias("/skill:ponytail-debt", "", ctx),
+    handler: (args, ctx) => sendAlias("/skill:ponytail-debt", args, ctx),
   });
 
   pi.registerCommand("ponytail-help", {
     description: "Run /skill:ponytail-help",
-    handler: (_args, ctx) => sendAlias("/skill:ponytail-help", "", ctx),
+    handler: (args, ctx) => sendAlias("/skill:ponytail-help", args, ctx),
   });
 
   pi.on("input", async (event) => {
