@@ -44,8 +44,10 @@ process.stdin.on('end', () => {
       }
     }
 
-    // Detect deactivation
-    if (/\b(stop ponytail|normal mode)\b/i.test(prompt)) {
+    // Detect deactivation. Anchored to the end of the message: an unanchored match
+    // fired on any passing mention, so asking "what does stop ponytail do?" silently
+    // switched the plugin off.
+    if (/(^|\s)(stop ponytail|normal mode)\s*[.!]?$/i.test(prompt)) {
       clearMode();
       writeHookOutput('UserPromptSubmit', 'off', 'PONYTAIL MODE OFF');
     }
