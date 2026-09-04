@@ -26,27 +26,29 @@ const meta = [
   [/rate limiting/,   'rate-limit',       'Rate Limiting'],
 ];
 
+// promptIdx is a position in promptfooconfig.yaml's `prompts:` list. Hardcoding 0 and 2
+// silently coupled these docs to that ordering — reorder the arms and every example
+// would be labelled backwards, with no error. Derive the indices from the labels.
+const cfg = readFileSync(new URL('./promptfooconfig.yaml', import.meta.url), 'utf8');
+const armLabels = [...cfg.matchAll(/^\s*label:\s*(.+)$/gm)].map((m) => m[1].trim());
+const armIdx = (name) => {
+  const i = armLabels.findIndex((l) => l.toLowerCase().startsWith(name));
+  if (i < 0) {
+    console.error(`arm "${name}" not found in promptfooconfig.yaml prompts: [${armLabels.join(', ')}]`);
+    process.exit(1);
+  }
+  return i;
+};
+const BASELINE_ARM = armIdx('baseline');
+const PONYTAIL_ARM = armIdx('ponytail');
+
 const pick = (re, armIdx) =>
   j.results.results.find((r) => isHaiku(r.provider.id) && r.promptIdx === armIdx && re.test(r.vars.task));
 
-// Resolve every task before writing anything. Skipping a miss and carrying on
-// rebuilt examples/README.md from whatever matched, overwriting a complete committed
-// table with a shorter one — and exited 0, so nothing downstream noticed.
-const missed = [];
-const resolved = meta.map(([re, slug, title]) => {
-  const b = pick(re, 0), p = pick(re, 2);
-  if (!b || !p) { console.log('MISS', slug, !!b, !!p); missed.push(slug); }
-  return { slug, title, b, p };
-});
-
-if (missed.length) {
-  console.error(`\n${missed.length} of ${meta.length} tasks had no matching rows in output.json: ${missed.join(', ')}`);
-  console.error('Nothing written. Re-run the eval so every task is present, then try again.');
-  process.exit(1);
-}
-
 const rows = [];
-for (const { slug, title, b, p } of resolved) {
+for (const [re, slug, title] of meta) {
+  const b = pick(re, BASELINE_ARM), p = pick(re, PONYTAIL_ARM);
+  if (!b || !p) { console.log('MISS', slug, !!b, !!p); continue; }
   const bL = loc(b.response.output).score, pL = loc(p.response.output).score;
   const md = `# ${title}
 
