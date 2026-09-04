@@ -166,7 +166,7 @@ def endpoint(user: str = "anon"):
 
 test('ratelimit: plain endpoint without limiting fails', () => {
   const result = check(
-    'Add rate limiting to my FastAPI endpoint.',
+    'Add rate limiting to my FastAPI endpoint so users can\'t spam it.',
     'python',
     `from fastapi import FastAPI
 app = FastAPI()
