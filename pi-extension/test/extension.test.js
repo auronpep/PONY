@@ -74,7 +74,17 @@ test("/ponytail updates session mode and injects instructions", async () => with
 
   const result = await events.get("before_agent_start")({ systemPrompt: "BASE" }, ctx);
   assert.ok(result.systemPrompt.includes("PONYTAIL MODE ACTIVE"));
-  assert.ok(result.systemPrompt.includes("ultra"));
+  // Assert on mode-specific body content, not just "ultra" — the header line is
+  // "PONYTAIL MODE ACTIVE — level: ultra", so a bare includes("ultra") passes even if
+  // filterSkillBodyForMode returns the body unfiltered, or returns nothing at all.
+  assert.ok(
+    result.systemPrompt.includes("YAGNI extremist"),
+    "expected the ultra intensity row in the injected ruleset",
+  );
+  assert.ok(
+    !result.systemPrompt.includes("| **lite** |"),
+    "expected the lite intensity row to be filtered out",
+  );
 }));
 
 test("session_start restores latest persisted mode", async () => withTempConfig(async () => {
