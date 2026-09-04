@@ -34,7 +34,9 @@ export function parsePonytailCommand(text, defaultMode = DEFAULT_MODE) {
   const normalizedText = String(text || "").trim().toLowerCase();
 
   if (!normalizedText) {
-    return { type: "set-mode", mode: fallback === "off" ? "full" : fallback };
+    // DEFAULT_MODE, not a literal: every other fallback in this file uses the
+    // constant, so a literal here would silently diverge if it ever changes.
+    return { type: "set-mode", mode: fallback === "off" ? DEFAULT_MODE : fallback };
   }
 
   const [primary, secondary] = normalizedText.split(/\s+/);
