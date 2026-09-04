@@ -21,6 +21,9 @@ const VERSIONED_MANIFESTS = [
   '.claude-plugin/plugin.json',
   '.codex-plugin/plugin.json',
   '.github/plugin/plugin.json',
+  // package.json is the manifest pi and npm read; it drifted to 0.1.0 while the
+  // other four moved to 4.7.0 precisely because it was not listed here.
+  'package.json',
 ];
 // Gemini auto-discovers these by directory; the manifest is only useful if they exist.
 const REUSED_COMMANDS = ['commands/ponytail.toml', 'commands/ponytail-review.toml'];
