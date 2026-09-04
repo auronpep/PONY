@@ -66,7 +66,7 @@ Multi-agent runs ~15x baseline (coordination + retries + consensus rounds). Budg
 
 ## Verdict
 
-Default single. Spawn on a passed gate, not a metaphor. Cap at 3-5 agents — each new one adds channels quadratically. Forward, don't paraphrase. Weight votes, validate handoffs, budget 15x. If it isn't faster or better than one agent after coordination cost, it's decorated leak — collapse it.
+Default single. Spawn on a passed gate, not a metaphor. Cap at 3-5 workers per supervisor — each new one adds channels quadratically. Forward, don't paraphrase. Weight votes, validate handoffs, budget 15x. If it isn't faster or better than one agent after coordination cost, it's decorated leak — collapse it.
 
 ## Boundaries
 
