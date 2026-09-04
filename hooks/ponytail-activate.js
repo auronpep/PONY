@@ -33,7 +33,10 @@ if (mode === 'off') {
 try {
   setMode(mode);
 } catch (e) {
-  // Silent fail -- flag is best-effort, don't block the hook
+  // Best-effort: the flag only drives the statusline badge, so never block the hook.
+  // But completely silent means the only symptom is a badge that never appears, with
+  // nothing to debug. stderr surfaces in hook debug output and never in the transcript.
+  process.stderr.write('ponytail: could not write mode flag (' + e.message + ')\n');
 }
 
 // 2. Emit the ponytail ruleset, filtered to the active intensity level.
