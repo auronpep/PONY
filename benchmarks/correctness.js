@@ -261,7 +261,9 @@ else:
 // --- Main assertion entry point ---
 
 module.exports = (output, context) => {
-  const task = identifyTask(context.vars.task || '');
+  // behavior.js guards this the same way. An assertion that throws takes the whole
+  // promptfoo run down with it, so this entry point always returns a verdict.
+  const task = identifyTask(context?.vars?.task || '');
   if (!task) {
     return { pass: true, score: 1, reason: 'Unknown task, skipped correctness check' };
   }
@@ -272,7 +274,15 @@ module.exports = (output, context) => {
   }
 
   const check = CHECKS[task];
-  const result = check(blocks);
+  let result;
+  try {
+    result = check(blocks);
+  } catch (e) {
+    // A harness failure (temp file unwritable, unlink EPERM, spawn error) is an
+    // infrastructure problem, not a wrong answer — but crashing here would abort
+    // every remaining case. Score it 0 and say why.
+    return { pass: false, score: 0, reason: 'harness error: ' + (e && e.message ? e.message : String(e)) };
+  }
   return {
     pass: result.pass,
     score: result.pass ? 1 : 0,
