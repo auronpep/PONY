@@ -83,3 +83,5 @@ work. Measure before you trust the window.
 - `evaluation` — degradation tests + production monitoring.
 
 Verdict: name the pattern, apply its one fix, set the trigger at 70% of onset.
+
+"stop ponytail" / "normal mode": revert to verbose context-degradation guidance.

@@ -89,3 +89,5 @@ Cutting load is fine; cutting these is data corruption:
 - `bdi-mental-states` — formal belief/desire/intention modeling over RDF.
 - `multi-agent-patterns` — memory shared across agents.
 - `evaluation` — memory retrieval correctness and benchmark suites.
+
+"stop ponytail" / "normal mode": revert to verbose memory-systems guidance.
