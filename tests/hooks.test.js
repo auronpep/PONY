@@ -21,6 +21,13 @@ function run(script, env, input = '') {
 delete process.env.CLAUDE_CONFIG_DIR;
 
 const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'ponytail-hooks-'));
+// Clean up on the way out however we exit. These are top-level asserts, so a failure
+// throws past any cleanup placed at the end of the file — which meant every failing
+// run left another ponytail-hooks-* directory behind, exactly when you are re-running
+// the suite repeatedly.
+process.on('exit', () => {
+  try { fs.rmSync(temp, { recursive: true, force: true }); } catch (e) {}
+});
 const home = path.join(temp, 'home');
 const pluginData = path.join(temp, 'plugin-data');
 fs.mkdirSync(home, { recursive: true });
@@ -138,5 +145,4 @@ assert.equal(
 output = JSON.parse(result.stdout);
 assert.deepEqual(output, {});
 
-fs.rmSync(temp, { recursive: true, force: true });
 console.log('hook compatibility checks passed');
