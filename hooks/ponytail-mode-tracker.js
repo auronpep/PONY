@@ -42,6 +42,12 @@ process.stdin.on('end', () => {
         clearMode();
         writeHookOutput('UserPromptSubmit', 'off', 'PONYTAIL MODE OFF');
       }
+
+      // Exactly one hook output per invocation. A prompt that is both a /ponytail
+      // command and a deactivation phrase used to fall through to the check below
+      // and write a second payload onto the same stdout, concatenating two JSON
+      // objects into something no host can parse.
+      if (mode) return;
     }
 
     // Detect deactivation
