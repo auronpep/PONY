@@ -3,8 +3,8 @@ name: context-optimization
 license: MIT
 description: >
   Stretch effective context without a bigger window: KV-cache ordering,
-  observation masking, compaction, partitioning, token-budget triggers,
-  retrieval scoping. Use when the user says "optimize context", "reduce
+  observation masking, compaction, partitioning, token-budget triggers.
+  Use when the user says "optimize context", "reduce
   tokens", "cut token cost", "context budget", "mask tool outputs", "improve
   cache hit rate", "compact the conversation", "split across sub-agents", or
   invokes /context-optimization.
