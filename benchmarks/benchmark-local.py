@@ -85,17 +85,27 @@ def run(model, repeat, ollama_url):
     results = {arm: {t: [] for t in task_ids} for arm in arms}
     total = len(arms) * len(TASKS) * repeat
 
+    out = Path(__file__).parent / "benchmark-local-results.json"
+
     done = 0
-    for r in range(repeat):
-        for arm, system in arms.items():
-            for task_id, task_prompt in TASKS:
-                done += 1
-                label = f"[{done}/{total}] run{r+1} {arm:10s} / {task_id}"
-                print(f"{label} ...", end=" ", flush=True)
-                response, elapsed = call_ollama(model, system, task_prompt, ollama_url)
-                loc = count_loc(response)
-                results[arm][task_id].append({"loc": loc, "time": elapsed, "response": response})
-                print(f"{loc} LOC  {elapsed}s")
+    try:
+        for r in range(repeat):
+            for arm, system in arms.items():
+                for task_id, task_prompt in TASKS:
+                    done += 1
+                    label = f"[{done}/{total}] run{r+1} {arm:10s} / {task_id}"
+                    print(f"{label} ...", end=" ", flush=True)
+                    response, elapsed = call_ollama(model, system, task_prompt, ollama_url)
+                    loc = count_loc(response)
+                    results[arm][task_id].append({"loc": loc, "time": elapsed, "response": response})
+                    print(f"{loc} LOC  {elapsed}s")
+    except BaseException:
+        # A full run is len(arms) * len(TASKS) * repeat sequential model calls and can
+        # take hours. Losing all of it to one dropped connection — or to Ctrl-C — is
+        # the expensive failure here, so persist what we have and re-raise.
+        out.write_text(json.dumps(results, indent=2), encoding="utf-8")
+        print(f"\n\nRun stopped after {done}/{total} calls - partial results saved to {out}")
+        raise
 
     # compute medians
     def median(vals):
@@ -138,7 +148,6 @@ def run(model, repeat, ollama_url):
         sign = "less" if pct >= 0 else "more"
         print(f"  {arm:10s}: {arm_total} LOC  ({abs(pct):.0f}% {sign} than baseline)")
 
-    out = Path(__file__).parent / "benchmark-local-results.json"
     out.write_text(json.dumps(results, indent=2), encoding="utf-8")
     print(f"\nFull responses -> {out}")
 
