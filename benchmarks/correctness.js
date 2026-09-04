@@ -162,7 +162,11 @@ setTimeout(() => {
   console.log("PASS");
 }, 120);
 `;
-    const f = tmpFile('.mjs', harness);
+    // .cjs, not .mjs: the guard above reads `module.exports`, and `module.exports =
+    // debounce` is the most common shape models emit. Under .mjs that line throws
+    // ReferenceError inside the model's own code, before any check runs, so correct
+    // answers were graded as failures.
+    const f = tmpFile('.cjs', harness);
     const result = exec(`node "${f}"`);
     fs.unlinkSync(f);
     if (result.ok) return { pass: true, reason: 'Debounce passes all checks' };
