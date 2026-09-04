@@ -261,9 +261,12 @@ else:
     const code = blocks.find((b) => b.lang === 'python' || b.lang === 'py' || (!b.lang && (b.code.includes('rate') || b.code.includes('limit'))));
     if (!code) return { pass: false, reason: 'No Python code block found' };
 
-    // Structural check for rate limiting: must have some form of counter/time tracking.
+    // Structural check for rate limiting: limiting logic, on a FastAPI endpoint.
+    // Deliberately does not require time/counter tracking — a correct answer using a
+    // library (slowapi's @limiter.limit, fastapi-limiter) contains no time., datetime
+    // or asyncio, and requiring it would fail working code. A `hasTimeTracking` const
+    // was computed here and never used; the comment claimed it was enforced.
     const src = code.code;
-    const hasTimeTracking = /time\.|datetime|asyncio/.test(src);
     const hasLimitLogic = /limit|max_requests|rate|429|Too Many|HTTPException|RateLimiter/.test(src);
     const hasFastAPI = /fastapi|FastAPI|app\s*=|@app\./.test(src);
 
