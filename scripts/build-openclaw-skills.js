@@ -35,7 +35,9 @@ function sourceBody(name) {
 
 function render(name) {
   const desc = DESCRIPTIONS[name];
-  if (desc.length > 160 || desc.includes('\n') || desc.includes('"')) {
+  // >= 160, not > 160: the rule stated in the file header, in the error below, and in
+  // tests/openclaw-skills.test.js is "under 160", but both checks accepted exactly 160.
+  if (desc.length >= 160 || desc.includes('\n') || desc.includes('"')) {
     throw new Error(`description for ${name} must be one line, no quotes, under 160 chars`);
   }
   const frontmatter =
