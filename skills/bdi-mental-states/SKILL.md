@@ -46,8 +46,8 @@ trace is the whole point: explainable agency for free. Properties:
 Agents consume external RDF and emit new RDF. Two phases, provenance preserved:
 
 1. **Triples→Beliefs:** `WorldState —triggers→ BeliefProcess —generates→ Belief`. Source data flows into cognition with a traceable origin.
-2. **(deliberate: belief→desire→intention→plan→execute)**
-3. **Beliefs→Triples:** `PlanExecution —bringsAbout→ WorldState`. Results project back as standard linked data so downstream systems consume agent output.
+   *(between them: deliberate — belief→desire→intention→plan→execute)*
+2. **Beliefs→Triples:** `PlanExecution —bringsAbout→ WorldState`. Results project back as standard linked data so downstream systems consume agent output.
 
 ## Build a BDI model — six passes
 
