@@ -20,7 +20,9 @@ to load in a given agent.
 | GitHub Copilot CLI | `.github/plugin/`, `AGENTS.md`, `.github/copilot-instructions.md`, `~/.copilot/copilot-instructions.md` | Plugin-supported (`copilot plugin marketplace add DietrichGebert/ponytail` + `copilot plugin install ponytail@ponytail`). Fallback instruction mode remains: per-project from `AGENTS.md` or `.github/copilot-instructions.md`, or globally from `~/.copilot/copilot-instructions.md` (instruction-tier, no `/ponytail` levels or hooks). |
 | Antigravity | `AGENTS.md` | Reads `AGENTS.md` at the repo root as always-on rules (like `.cursorrules`/`CLAUDE.md`); `.agents/rules/` also works for workspace rules. Instruction-tier. |
 | VS Code + Codex extension | `AGENTS.md` | The Codex extension reads `AGENTS.md` (repo root, or `~/.codex/AGENTS.md` globally). Instruction-tier; the full Codex plugin row above adds `/ponytail` levels and hooks. |
+| OpenClaw | `.openclaw/skills/`, `skills/`, `scripts/build-openclaw-skills.js` | Skill package generated from `skills/` (one-line descriptions, body copied verbatim). Install via `clawhub install ponytail` — review, audit, debt, and help install the same way; without ClawHub, copy `.openclaw/skills/ponytail` into `~/.openclaw/skills/`. Also exposes `/ponytail`. |
 | Kiro | `.kiro/steering/ponytail.md` | Steering rule; copy globally or into a project. |
+| Aider | `AGENTS.md` | Reads `AGENTS.md` as conventions. Instruction-tier. |
 | Generic agents | `AGENTS.md` or `skills/*/SKILL.md` | Copy the compact rule file or load the skill files directly. |
 
 ## Adapter Rule
