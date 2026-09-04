@@ -217,7 +217,7 @@ Which files map to which agent: [Agent portability](docs/agent-portability.md).
 | `/ponytail-claude-md` | Update CLAUDE.md without turning it into a per-session token tax. |
 | `/ponytail-critique` | Audit a plan before implementation: keep, cut, shrink, or defer. |
 
-Commands need a skill-capable host (Claude Code, Codex, OpenCode, Gemini, pi). In Codex they're skills, invoke with `@` (`@ponytail-review`). The instruction-only adapters (Cursor, Windsurf, Cline, Copilot, Kiro, Antigravity) load the always-on ruleset without the commands.
+Commands need a skill-capable host (Claude Code, Codex, Copilot CLI, OpenCode, OpenClaw, Gemini, Antigravity, pi). In Codex they're skills, invoke with `@` (`@ponytail-review`); Antigravity likewise turns them into skills you type into the chat rather than pick from a slash menu. The instruction-only adapters (Cursor, Windsurf, Cline, Copilot in the editor, Kiro) load the always-on ruleset without the commands.
 
 ## Development
 
