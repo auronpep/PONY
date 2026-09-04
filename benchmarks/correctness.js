@@ -268,7 +268,10 @@ else:
     // was computed here and never used; the comment claimed it was enforced.
     const src = code.code;
     const hasLimitLogic = /limit|max_requests|rate|429|Too Many|HTTPException|RateLimiter/.test(src);
-    const hasFastAPI = /fastapi|FastAPI|app\s*=|@app\./.test(src);
+    // `app\s*=` matched any variable named app in any language — an Express or Flask
+    // answer satisfied the FastAPI check. The remaining alternatives are FastAPI-specific
+    // and already cover the real shapes (import, constructor, route decorator).
+    const hasFastAPI = /fastapi|FastAPI|@app\./.test(src);
 
     const failures = [];
     if (!hasLimitLogic) failures.push('no rate limit logic');
