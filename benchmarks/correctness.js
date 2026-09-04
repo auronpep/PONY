@@ -57,8 +57,13 @@ function python() {
 }
 
 // Write content to a temp file, return the path.
+// Harnesses are executed as scripts, so their directory lands on sys.path[0] /
+// the module resolution root. Keep them in a private directory: dropping them in
+// the shared temp dir lets any stray foo.py there shadow a stdlib import.
+let benchDir;
 function tmpFile(ext, content) {
-  const p = path.join(os.tmpdir(), `ponytail-bench-${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`);
+  if (!benchDir) benchDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ponytail-bench-'));
+  const p = path.join(benchDir, `${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`);
   fs.writeFileSync(p, content);
   return p;
 }
