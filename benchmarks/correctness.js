@@ -124,7 +124,7 @@ print("PASS")
 `;
     const f = tmpFile('.py', harness);
     const result = exec(`${python()} "${f}"`);
-    fs.unlinkSync(f);
+    try { fs.unlinkSync(f); } catch (e) {}
     if (result.ok) return { pass: true, reason: 'Email validator passes all checks' };
     return { pass: false, reason: result.stderr || 'Email validator failed' };
   },
@@ -173,7 +173,7 @@ setTimeout(() => {
     // answers were graded as failures.
     const f = tmpFile('.cjs', harness);
     const result = exec(`node "${f}"`);
-    fs.unlinkSync(f);
+    try { fs.unlinkSync(f); } catch (e) {}
     if (result.ok) return { pass: true, reason: 'Debounce passes all checks' };
     return { pass: false, reason: result.stderr || 'Debounce failed' };
   },
