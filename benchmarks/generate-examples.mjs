@@ -18,10 +18,24 @@ const meta = [
 const pick = (re, armIdx) =>
   j.results.results.find((r) => isHaiku(r.provider.id) && r.promptIdx === armIdx && re.test(r.vars.task));
 
-const rows = [];
-for (const [re, slug, title] of meta) {
+// Resolve every task before writing anything. Skipping a miss and carrying on
+// rebuilt examples/README.md from whatever matched, overwriting a complete committed
+// table with a shorter one — and exited 0, so nothing downstream noticed.
+const missed = [];
+const resolved = meta.map(([re, slug, title]) => {
   const b = pick(re, 0), p = pick(re, 2);
-  if (!b || !p) { console.log('MISS', slug, !!b, !!p); continue; }
+  if (!b || !p) { console.log('MISS', slug, !!b, !!p); missed.push(slug); }
+  return { slug, title, b, p };
+});
+
+if (missed.length) {
+  console.error(`\n${missed.length} of ${meta.length} tasks had no matching rows in output.json: ${missed.join(', ')}`);
+  console.error('Nothing written. Re-run the eval so every task is present, then try again.');
+  process.exit(1);
+}
+
+const rows = [];
+for (const { slug, title, b, p } of resolved) {
   const bL = loc(b.response.output).score, pL = loc(p.response.output).score;
   const md = `# ${title}
 
