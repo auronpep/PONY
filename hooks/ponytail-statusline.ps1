@@ -1,12 +1,16 @@
-$Base = if ($env:CLAUDE_CONFIG_DIR) { $env:CLAUDE_CONFIG_DIR } else { Join-Path $HOME ".claude" }
-$Flag = Join-Path $Base ".ponytail-active"
-if (-not (Test-Path $Flag)) {
+$Flag = Join-Path $HOME ".claude/.ponytail-active"
+if (-not (Test-Path -LiteralPath $Flag)) {
     exit 0
 }
 
 $Mode = ""
 try {
-    $Mode = (Get-Content $Flag -ErrorAction Stop | Select-Object -First 1).Trim()
+    # Cast before Trim: Get-Content on an empty file yields $null, and $null.Trim()
+    # throws into the catch below — so an empty flag rendered no badge at all here
+    # while the bash script rendered [PONYTAIL], and the IsNullOrEmpty branch below
+    # was unreachable. -LiteralPath so a home directory containing [ or ] is not
+    # treated as a wildcard pattern.
+    $Mode = "$(Get-Content -LiteralPath $Flag -ErrorAction Stop | Select-Object -First 1)".Trim()
 } catch {
     exit 0
 }
