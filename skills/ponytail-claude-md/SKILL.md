@@ -24,7 +24,7 @@ Before adding anything, three gates. Fail one → don't add it.
 2. **Right home?** CLAUDE.md is *only* for project instructions that override a
    default and can't live in code. Route everything else:
    - standing personal preference / cross-project fact → memory
-   - settings, permissions, hooks, env → `settings.json` (see `update-config`)
+   - settings, permissions, hooks, env → `settings.json`
    - reusable procedure → a skill
    - fact derivable from code, tests, or git history → nowhere; the repo says it
 3. **Terse?** One line if one line carries it. No preamble, no rationale prose
