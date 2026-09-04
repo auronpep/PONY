@@ -25,7 +25,7 @@
 
 ---
 
-> **NWBZPWNR** — a fork of [ponytail](https://github.com/DietrichGebert/ponytail). Same lazy senior dev, plus extra skills (`ponytail-skill`, `ponytail-claude-md`).
+> **NWBZPWNR** — a fork of [ponytail](https://github.com/DietrichGebert/ponytail). Same lazy senior dev, plus extra skills (`ponytail-skill`, `ponytail-claude-md`, `ponytail-critique`) and a 15-skill context-engineering pack.
 
 You know him. Long ponytail. Oval glasses. Has been at the company longer than the version control. You show him fifty lines; he looks at them, says nothing, and replaces them with one.
 
