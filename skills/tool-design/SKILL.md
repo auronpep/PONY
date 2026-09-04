@@ -30,7 +30,7 @@ If a human can't say which tool to use, neither can the agent. Reduce until each
 ## Architectural reduction — the standout move
 
 Push to the limit: give the agent a primitive (a command tool over a
-well-documented file tree) instead of N specialist wrappers. Vercel d0 text-to-SQL,
+well-documented file tree) instead of N specialist wrappers. Vercel's text-to-SQL agent,
 17 tools → 2 primitives (`execute_command`, `execute_sql`): 274.8s → 77.4s (3.5x),
 80% → 100% success, ~102k → ~61k tokens (-37%), ~12 → ~7 steps.
 

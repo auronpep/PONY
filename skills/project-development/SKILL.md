@@ -65,7 +65,7 @@ one window, a benchmarked quality lift. Multi buys fresh windows, not role cospl
 
 ## Subtract, then iterate
 
-Start with the fewest tools; add only on production evidence. Vercel d0 cut 17
+Start with the fewest tools; add only on production evidence. Vercel's text-to-SQL agent cut 17
 tools → 2 (bash + SQL): 80%→100% success, 3.5x faster, 37% fewer tokens — the
 docs were already legible, the tools just re-summarized them. Reduce when data is
 well-documented and the model can reason over it; add only for messy data,
