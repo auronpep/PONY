@@ -233,7 +233,10 @@ else:
   countdown(blocks) {
     // React components can't run in bare Node without a bundler. Structural check:
     // the code must contain timer/countdown logic (useState/useEffect/setInterval/setTimeout).
-    const code = blocks.find((b) => b.code.includes('ount') || b.code.includes('timer') || b.code.includes('Timer'));
+    // `includes('ount')` was a hand-rolled case-insensitive "count", but it also
+    // matches amount, mount and componentDidMount — so a block that is plainly not
+    // the component could win the selection.
+    const code = blocks.find((b) => /count|timer/i.test(b.code));
     if (!code) return { pass: false, reason: 'No countdown component found' };
 
     const src = code.code;
