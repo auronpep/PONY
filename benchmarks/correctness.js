@@ -239,7 +239,11 @@ else:
     const src = code.code;
     const hasState = /useState|useReducer|this\.state/.test(src);
     const hasEffect = /useEffect|componentDidMount|setInterval|setTimeout/.test(src);
-    const hasDecrement = /- 1|-= 1|prev - 1|count - 1|seconds - 1|time - 1/.test(src);
+    // `prev - 1`, `count - 1`, `seconds - 1` and `time - 1` were all dead alternatives —
+    // each already contains `- 1`. What the list actually missed was the unspaced form
+    // (`c => c-1`, `count-=1`), which is at least as common. Tolerate the whitespace
+    // instead of enumerating variable names; \b keeps `total - 10` from matching.
+    const hasDecrement = /-\s*=\s*1\b|-\s*1\b/.test(src);
 
     const failures = [];
     if (!hasState) failures.push('no state management (useState/useReducer)');
