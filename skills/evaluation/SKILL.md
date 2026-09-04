@@ -50,6 +50,10 @@ Level ladder per dimension: `1.0` excellent · `0.8` good · `0.6` acceptable ·
 `0.3` poor · `0.0` failed. Overall = weighted average. Pass threshold: `0.7`
 general, `0.9` high-stakes.
 
+Per-dimension floor: `0.6` (acceptable) general, `0.8` (good) high-stakes. One
+dimension under its floor fails the run regardless of the weighted average —
+that is the gate the Verdict blocks on.
+
 ## Test set
 
 - Size: 20–30 cases early (changes are dramatic), 50+ for reliable signal.
