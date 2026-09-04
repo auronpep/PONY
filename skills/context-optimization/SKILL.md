@@ -62,7 +62,7 @@ Summarize, then reinitialize with the summary. Preserve by message type:
 | Conversation | decisions, commitments, user prefs, context shifts | filler, concluded back-and-forth |
 | Retrieved docs | task-relevant claims/facts | one-shot supporting elaboration |
 
-Thresholds: warn 70% · compact 80% · aggressive 90%. Target 50-70% reduction,
+Thresholds: warn 70% · compact 80% · aggressive 85%. Target 50-70% reduction,
 <5% degradation; >70% → audit for lost state. Never compact the system prompt;
 re-validate every summary against the live goal — stale summaries look authoritative.
 
