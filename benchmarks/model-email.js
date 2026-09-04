@@ -6,10 +6,15 @@ const email = TASKS.find(t => t.name === 'email');
 const N = Number(process.env.ME_N) || 100;
 const MODELS = (process.env.ME_MODELS || 'gpt-4.1-mini,gpt-5.4-mini').split(',');
 
-const kv = Object.fromEntries(fs.readFileSync(path.join(__dirname, '..', '.env'), 'utf8')
+// Key acquisition matches robustness-audit.js: the environment wins, .env is a
+// fallback, and a missing .env is not fatal (CI and shell-export runs have no file).
+let kv = {};
+try {
+kv = Object.fromEntries(fs.readFileSync(path.join(__dirname, '..', '.env'), 'utf8')
   .split(/\r?\n/).filter(l => l.includes('=') && !l.trim().startsWith('#'))
-  .map(l => { const i = l.indexOf('='); return [l.slice(0, i).trim(), l.slice(i + 1).trim().replace(/^['"]|['"]$/g, '')]; }));
-const KEY = kv.OPENAI_API_KEY;
+  .map(l => { const i = l.indexOf('='); return [l.slice(0, i).trim(), l.slice(i + 1).trim()]; }));
+} catch (_) { /* no .env — fall back to the environment */ }
+const KEY = process.env.OPENAI_API_KEY || kv.OPENAI_API_KEY;
 
 async function call(model, system, user) {
   const body = { model, max_completion_tokens: 4096,
