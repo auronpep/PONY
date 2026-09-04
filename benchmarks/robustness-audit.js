@@ -169,6 +169,14 @@ if (process.argv.includes('--selftest')) {
 (async () => {
   const arms = { baseline: null, ponytail: SKILL };
   const grid = {};
+
+  // Raw pass counts are not comparable between arms: `n` is N minus API errors,
+  // so the two arms routinely end the run with different denominators. An arm
+  // that hit more errors can post a lower count while holding the better rate —
+  // baseline 15/20 (75%) vs ponytail 14/15 (93%) printed PONYTAIL REGRESSION on
+  // an arm that had improved. Compare rates instead.
+  const rate = (a) => (a.n ? a.pass / a.n : 0);
+  const regressed = (b, p) => rate(p) < rate(b);
   for (const t of TASKS) {
     grid[t.name] = {};
     for (const arm of Object.keys(arms)) {
@@ -181,14 +189,14 @@ if (process.argv.includes('--selftest')) {
       grid[t.name][arm] = { pass, n: N - err };
     }
     const b = grid[t.name].baseline, p = grid[t.name].ponytail;
-    const flag = p.pass < b.pass ? '  <-- PONYTAIL REGRESSION' : (p.pass < p.n ? '  (both imperfect)' : '');
+    const flag = regressed(b, p) ? '  <-- PONYTAIL REGRESSION' : (p.pass < p.n ? '  (both imperfect)' : '');
     console.log(`${t.name.padEnd(16)} baseline ${b.pass}/${b.n}   ponytail ${p.pass}/${p.n}${flag}`);
   }
   console.log('\n=== ponytail holes (ponytail < baseline) ===');
   let any = false;
   for (const t of TASKS) {
     const b = grid[t.name].baseline, p = grid[t.name].ponytail;
-    if (p.pass < b.pass) { console.log(`  ${t.name}: ${b.pass} -> ${p.pass}`); any = true; }
+    if (regressed(b, p)) { console.log(`  ${t.name}: ${b.pass}/${b.n} -> ${p.pass}/${p.n}`); any = true; }
   }
   if (!any) console.log('  none');
 })();
