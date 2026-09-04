@@ -89,7 +89,17 @@ export default function ponytailExtension(pi) {
       }
 
       if (parsed.type === "set-default") {
-        const written = writeDefaultMode(parsed.mode);
+        // This writes to disk, so it can fail for reasons that have nothing to do
+        // with the command: read-only $XDG_CONFIG_HOME, EACCES, a full disk. An
+        // async command handler that throws becomes an unhandled rejection in the
+        // host, which is a worse outcome than telling the user it didn't save.
+        let written;
+        try {
+          written = writeDefaultMode(parsed.mode);
+        } catch (e) {
+          ctx?.ui?.notify?.(`Could not save default Ponytail mode: ${e.message}`, "warning");
+          return;
+        }
         if (written) {
           configuredDefaultMode = getDefaultMode();
           const message = configuredDefaultMode === written
