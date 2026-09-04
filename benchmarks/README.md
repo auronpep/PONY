@@ -67,10 +67,24 @@ Versus baseline, ponytail writes **80-94% less code**, costs **42-75% less**, an
 |------|--------|----------|
 | `loc.js` | `loc` | Measurement - always passes, records line count |
 | `correctness.js` | `correct` | Gate - fails if generated code doesn't work |
+| `behavior.js` | `behavior` | Gate - fails if the ruleset didn't produce its refined behavior |
 
 `correctness.js` extracts fenced code blocks and runs per-task checks (spawns Python/Node for email, debounce, CSV; structural regex for React and FastAPI). A broken one-liner that scores great on LOC will fail on correctness.
 
 > **Note:** The React countdown and FastAPI rate-limit checks are keyword/structural only (no runtime execution), so they verify plausible structure rather than full correctness. The email, debounce, and CSV checks execute the code.
+
+`behavior.js` runs from its own config (`behavior.yaml`, one probe per rule: `hardware`, `explanation`, `onecheck`) rather than `promptfooconfig.yaml`. It asks whether the ruleset actually *produced* a behavior, not whether the response merely carries the text:
+
+```bash
+npx promptfoo@latest eval -c behavior.yaml --env-file ../.env
+```
+
+`robustness-audit.js` is not a promptfoo assertion — it is a standalone script that runs 16 edge-case tasks against baseline vs ponytail to find where the ruleset breaks on a weak model. Each task ships a known-good and a known-lazy-wrong reference so the instruments are verified before any API spend:
+
+```bash
+node robustness-audit.js --selftest   # no API key: proves every check is correct
+node robustness-audit.js              # baseline vs ponytail (needs OPENAI_API_KEY)
+```
 
 ### Prerequisites
 
