@@ -70,7 +70,13 @@ function getDefaultMode() {
       return config.defaultMode.toLowerCase();
     }
   } catch (e) {
-    // Config file doesn't exist or is invalid — fall through
+    // No config file is the normal case — stay silent. A file that exists but can't
+    // be read or parsed is a different thing: the user set a default and is silently
+    // getting another one. Say so on stderr (hook stderr surfaces in debug output,
+    // never in the transcript) and still fall through to the default.
+    if (e.code !== 'ENOENT') {
+      process.stderr.write('ponytail: ignoring unreadable config at ' + getConfigPath() + ' (' + e.message + ')\n');
+    }
   }
 
   // 3. Default
